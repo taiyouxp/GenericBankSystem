@@ -1,28 +1,31 @@
 import java.util.ArrayList;
 
-// * gotta search more about array list... 
-// missing out: 
-// transferences, especial account types, delete account, 
-// password system, persistent information.. maybe ill connect with a DB.. GUI interface
-// more features, such as: loan, people who do NOT PAY MY BANK... 
-// also,learn how to implement TDD here, to better the code.
+// * preciso pesquisar mais sobre lista de arrays...
+
+// Faltando: 
+// transferências, tipos especiais de contas, exclusão de contas
+// sistema de senhas, informações persistentes... talvez eu consiga me conectar a um banco de dados... interface gráfica
+// mais recursos, como: empréstimo, pessoas que NÃO PAGAM MEU BANCO...
+// aprenda também como implementar TDD aqui, para melhorar o código.
 
 public class Bank {
-    // again, some procedures of encapsulation
+    // again, alguns procedimentos de encapsulamento
     private ArrayList<Account> accounts;
     
     public Bank() {
-        accounts = new ArrayList<>(); // how to initialize an array
+        accounts = new ArrayList<>(); // como inicializar uma array
     }
-    // using the java utils for array list
-    // package to add the object account with the passage of the parameter of it 
-    // *this is an exclusive operation for Account class 
+
+    // usando os java utils para array list
+    // pacote para adicionar o objeto account com a passagem do parâmetro dele 
+    // *esta é uma operação exclusiva para a classe Account
+
     public void addAccount(Account account) {
         accounts.add(account);
-        System.out.println("account added succesfully!\n");
+        System.out.println("Conta adicionada com sucesso!\n");
     }
     
-    // method to find an account by the accountNumber (acts like id)
+    // método para encontrar uma conta pelo accountNumber (age como id)
     public Account findAccount(int accountNumber) {
         for (Account account : accounts) {
             if (account.getAccountNumber() == accountNumber) {
@@ -32,20 +35,20 @@ public class Bank {
         return null;
     }
 
-    // display all accounts
+    // exibir todas as contas
     public void displayAccounts() {
         for (Account account : accounts) {
             account.displayInfo(); System.out.println();
         }
     }
-    // modify the limits using the previous method of search 
+    // modificar os limites usando o método de pesquisa anterior
     public void modifyLimit(int accountNumber, double newLimit) {
         Account account = findAccount(accountNumber);
         if (account != null) {
             account.setNewLimit(newLimit);
-            System.out.println("Succefully updated: $"+account.getCreditLimit()+" is your new limit !");
+            System.out.println("Atualizado com sucesso: $"+account.getCreditLimit()+" é seu novo limite !");
         } else {
-            System.out.println("Error in operation: account not found...");
+            System.out.println("Erro na operação: conta não encontrada...");
         }
     }
 }
