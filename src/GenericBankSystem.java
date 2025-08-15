@@ -17,6 +17,29 @@ public class GenericBankSystem {
             boolean on = true;
             // 2. THE MAIN PROGRAM LOOP 
             while (on) {
+
+                System.out.println("=======Login=======");
+                System.out.println("User:");
+                String user = scanner.nextLine();
+                System.out.println("Password:");
+                String password = scanner.nextLine();
+
+                boolean session=false;
+
+                // aqui no "user e password" vamos adicionar os dados do usuario e i vaos vazer uma busca no array se ele existir vai entra caso contrario vai retornar erro
+                while (!session) {
+                if (user.equalsIgnoreCase("user") && password.equalsIgnoreCase("password")){
+                    session= true;
+                }else {
+                    System.out.println("User or Password Invalid!");
+                    System.out.println("User:");
+                    user = scanner.nextLine();
+                    System.out.println("Password:");
+                    password = scanner.nextLine();
+                }
+     
+                }
+
                 // 2.1 these are the option the user will have to manage the account 
                 System.out.println("========Menu========");
                 System.out.println("1. Add a new account");
