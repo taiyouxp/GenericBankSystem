@@ -23,7 +23,8 @@ public class GenericBankSystem {
                 System.out.println("2. Display all accounts");
                 System.out.println("3. Find an account by number");
                 System.out.println("4. Modify credit limit");
-                System.out.println("5. Exit");
+                System.out.println("5. Painel admin");
+                System.out.println("6. Exit");
                 System.out.println("Please choose one of the options above: ");
                 System.out.println("====================");
 
@@ -68,7 +69,40 @@ public class GenericBankSystem {
 
                         myBank.modifyLimit(modAccNum, newCredLim);
                         break;
-                    case 5: 
+                    case 5:
+                        System.out.println("========Menu admin========");
+                        System.out.println("1. Display all accounts");
+                        System.out.println("2. Display id accounts");
+                        System.out.println("3. Edit accounts");
+                        System.out.println("====================");
+                        int choiceAdmin = scanner.nextInt();
+
+                        if (choiceAdmin==1){
+                                myBank.displayAccounts();
+                        }
+                        else if (choiceAdmin==2){
+                                System.out.println("Search account id:");
+                                int idAccount  = scanner.nextInt();
+                                myBank.findAccount(idAccount);
+                        }
+                        else if (choiceAdmin==3){
+                                System.out.println("");
+                                System.out.println("========Edit count========");
+                                System.out.println("1. Put count");
+                                System.out.println("2. Delete count");
+                                System.out.println("====================");
+                                int choiceOption = scanner.nextInt();
+
+                                if (choiceOption==1){
+                                    System.out.println("========Put count========");
+                                    System.out.println("====================");
+                                }
+                                else if (choiceOption==2){
+                                    System.out.println("========Delete count========");
+                                    System.out.println("====================");
+                                }
+                        }
+                    case 6: 
                         on = false; // this will end the loop (the program itself)
                         System.out.println("thank for using Generic Bank System™");
                         break;

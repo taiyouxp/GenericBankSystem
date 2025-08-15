@@ -16,7 +16,7 @@ public class Bank {
     }
     // using the java utils for array list
     // package to add the object account with the passage of the parameter of it 
-    // *this is an exclusive operation for Account class 
+    // *this is an exclusive operation for Account class
     public void addAccount(Account account) {
         accounts.add(account);
         System.out.println("account added succesfully!\n");
