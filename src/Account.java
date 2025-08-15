@@ -1,9 +1,11 @@
 public class Account {
-    private String accountHolder;
-    private int accountNumber;
-    private double balance, creditLimit;
+    // 1. atributos 
+    private String accountHolder; // TitularConta
+    private int accountNumber; // NumeroConta
+    private double creditLimit; // saldo, limiteCredito
+    protected double balance;
 
-    // um método construtor real
+    // 2. método construtor 
     public Account(String accountHolder, int accountNumber, double balance, double creditLimit) {
         this.accountHolder = accountHolder;
         this.accountNumber = accountNumber;
@@ -11,30 +13,33 @@ public class Account {
         this.creditLimit = creditLimit;
     }
 
-    // métodos getters e setters (haverá mais)
+    // 3. métodos getters (acessador)
     public String getAccountHolder() {return accountHolder;} 
     public int getAccountNumber() {return accountNumber;}
     public double getBalance() {return balance;}
     public double getCreditLimit() {return creditLimit;}
     
+    // 4. método setter (modificador)
     public void setNewLimit(double newLimit) {
         this.creditLimit = newLimit;
     }
 
-    public void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
-            System.out.println("Depositado: $" + amount);
+
+    // 5. métodos de Comportamento
+    public void deposit(double quantia) {
+        if (quantia > 0) {
+            balance += quantia;
+            System.out.println("Depositado: $" + quantia);
         } else {
             System.out.println("Nenhum valor foi depositado... (valor negativo)");
         }
     } 
 
-    public void withdraw(double amount) {
-        if (amount < 0) {
-            if ((balance + creditLimit) >= amount) {
-                balance -= amount;
-                System.out.println("Retirou-se: $"+amount);
+    public void withdraw(double quantia) {
+        if (quantia < 0) {
+            if ((balance + creditLimit) >= quantia) {
+                balance -= quantia;
+                System.out.println("Retirou-se: $" + quantia);
             } else {
                 System.out.println("Não foi possível processar a operação, saldo atual: " + balance);
             }

@@ -10,8 +10,12 @@ import java.util.ArrayList;
 
 public class Bank {
     // again, alguns procedimentos de encapsulamento
-    private ArrayList<Account> accounts;
+
+    // 1. atributo
+    private ArrayList<Account> accounts; // uma lista para guardar todas as contas
     
+
+    // 2. construtor
     public Bank() {
         accounts = new ArrayList<>(); // como inicializar uma array
     }
@@ -20,6 +24,7 @@ public class Bank {
     // pacote para adicionar o objeto account com a passagem do parâmetro dele 
     // *esta é uma operação exclusiva para a classe Account
 
+    // 3. métodos de Comportamento
     public void addAccount(Account account) {
         accounts.add(account);
         System.out.println("Conta adicionada com sucesso!\n");
@@ -29,10 +34,10 @@ public class Bank {
     public Account findAccount(int accountNumber) {
         for (Account account : accounts) {
             if (account.getAccountNumber() == accountNumber) {
-                return account;
+                return account; // retorna o objeto conta encontrado
             }
         }
-        return null;
+        return null; // retorna nulo se não encontrar
     }
 
     // exibir todas as contas
