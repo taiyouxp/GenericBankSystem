@@ -10,7 +10,7 @@ public class GenericBankSystem {
         int id = 0; // para gerar números de conta sequenciais
         boolean on = true;
 
-        System.out.println("Bem-vindo ao Sistema Bancário Genérico™");
+        System.out.println("Bem-vindo ao Sistema Bancário Genérico");
 
         // 2. O LOOP DO PROGRAMA PRINCIPAL
         while (on) {
@@ -25,7 +25,7 @@ public class GenericBankSystem {
             System.out.println("7. Aplicar Juros (Apenas Conta Poupança)");
             System.out.println("8. Sair");
             System.out.print("Por favor, escolha uma das opções acima: ");
-            System.out.println("====================");
+            System.out.println("\n====================");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); 
