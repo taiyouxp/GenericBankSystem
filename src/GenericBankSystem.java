@@ -6,7 +6,7 @@ public class GenericBankSystem {
     public static void main(String[] args) {
         // 1. SETUP
         Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
-        Bank myBank = new Bank(); // cria o objeto que gerenciará as contas
+        BankAdmin myBank = new BankAdmin(); // cria o objeto que gerenciará as contas
         int id = 0; // para gerar números de conta sequenciais
         boolean on = true;
 
@@ -46,7 +46,7 @@ public class GenericBankSystem {
                     System.out.print("Valor de crédito inicial da conta: ");
                     double credit = scanner.nextDouble();
 
-                    Account novaConta = null; // utilizamo a classe pai como tipo 
+                    Account novaConta = null; // utilizamos a classe pai como tipo 
 
                     if (tipoConta == 1) {
                         System.out.print("Digite a taxa de juros (ex: 0.05 para 5%): ");

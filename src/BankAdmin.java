@@ -1,23 +1,20 @@
 import java.util.ArrayList;
 
-// * preciso pesquisar mais sobre lista de arrays...
+// * gotta search more about array list... 
+// missing out: 
+// transferences, inheritance account types, delete account, 
+// password system, persistent information.. maybe ill connect with a DB.. GUI interface
+// more features, such as: loan, people who do NOT PAY MY BANK... 
+// also,learn how to implement TDD here, to better the code.
 
-// Faltando: 
-// transferências, tipos especiais de contas, exclusão de contas
-// sistema de senhas, informações persistentes... talvez eu consiga me conectar a um banco de dados... interface gráfica
-// mais recursos, como: empréstimo, pessoas que NÃO PAGAM MEU BANCO...
-// aprenda também como implementar TDD aqui, para melhorar o código.
-
-public class Bank {
-    // again, alguns procedimentos de encapsulamento
-
-    // 1. atributo
-    private ArrayList<Account> accounts; // uma lista para guardar todas as contas
+public class BankAdmin {
+    // again, some procedures of encapsulation
+    // this is the unique attribute 
+    private ArrayList<Account> accounts;
+    // private ArrayList<Client> clients;
     
-
-    // 2. construtor
-    public Bank() {
-        accounts = new ArrayList<>(); // como inicializar uma array
+    public BankAdmin() {
+        accounts = new ArrayList<>(); // how to initialize an array
     }
 
     // usando os java utils para array list
@@ -42,8 +39,13 @@ public class Bank {
 
     // exibir todas as contas
     public void displayAccounts() {
+        int count = 0;
         for (Account account : accounts) {
+            count++;
             account.displayInfo(); System.out.println();
+        }
+        if(count == 0) { // just to ensure the message 
+            System.out.println("theres no account on the system ! ");
         }
     }
     // modificar os limites usando o método de pesquisa anterior
