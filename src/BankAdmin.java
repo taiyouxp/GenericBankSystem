@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
-// * gotta search more about array list... 
-// missing out: 
-// transferences, inheritance account types, delete account, 
-// password system, persistent information.. maybe ill connect with a DB.. GUI interface
-// more features, such as: loan, people who do NOT PAY MY BANK... 
-// also,learn how to implement TDD here, to better the code.
+// * Preciso pesquisar mais sobre lista de arrays...
+// faltando:
+// transferências, tipos de contas de herança, exclusão de contas,
+// sistema de senhas, informações persistentes... talvez eu me conecte a um banco de dados... interface gráfica
+// mais recursos, como: empréstimo, pessoas que NÃO PAGAM MEU BANCO...
+// aprenda também como implementar TDD aqui, para melhorar o código.
 
 public class BankAdmin {
     // again, some procedures of encapsulation
@@ -44,8 +44,8 @@ public class BankAdmin {
             count++;
             account.displayInfo(); System.out.println();
         }
-        if(count == 0) { // just to ensure the message 
-            System.out.println("theres no account on the system ! ");
+        if(count == 0) { // só para garantir a mensagem 
+            System.out.println("não há nenhuma conta no sistema! ");
         }
     }
     // modificar os limites usando o método de pesquisa anterior

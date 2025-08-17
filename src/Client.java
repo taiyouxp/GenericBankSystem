@@ -3,95 +3,101 @@ import utils.AddressValidator;
 
 public class Client {
     private String clientName;
-    private int clientID; // this one only needs the constructor method and not a set
+    private int clientID; // este só precisa do método construtor e não de um conjunto
     private String clientEmail;
     private String clientPassword;
     private String clientAddress;
     
-    private Account account; // this is a single field and can hold any subclass of account 
+    private Account account; // este é um campo único e pode conter qualquer subclasse de conta 
 
-    // 1. CONSTRUCTOR METHOD
+    // 1. MÉTODO CONSTRUCTOR 
     public Client(int clientID, String name, String email, String password, String address) {
-        this.clientID = clientID; // setting id directly
-        this.account = null; // a new client starts with no account 
+        this.clientID = clientID; // definindo o id diretamente
+        this.account = null; // um novo cliente começa sem conta
 
-        // calling the setter methods to validate and set the other fields: 
+        // chamando os métodos setter para validar e definir os outros campos:
         setClientName(name);
         setEmail(email);
         setPassword(password);
         setAddress(address);
     }
-    // 2 SETTER METHODS
-    // 2.1 FOR THE CLIENT'S FIELDS 
+    // 2 MÉTODOS SETTER
+    // 2.1 PARA AS ÁREAS DO CLIENTE
     public void setClientName(String userName) {
         if (userName == null || userName.trim().isEmpty()) {
-            System.out.println("Error: Username cannot be empty.");
+            System.out.println("Erro: O nome de usuário não pode estar vazio.");
         } else if (clientName.length() > 50) {
-            System.out.println("Username is too long! Has to be less than 50 characters.");
+            System.out.println("O nome de usuário é muito longo! Deve ter menos de 50 caracteres.");
         } else {
             this.clientName = userName;
-            System.out.println("Success: Client name has been set.");
+            System.out.println("Sucesso: O nome do cliente foi definido.");
         }
     }
 
     public void setEmail(String email) {
-        // a method from the class EmailValidator
+        // um método da classe EmailValidator
         if (EmailValidator.isValidEmail(email)) {
             this.clientEmail = email;
-            System.out.println("Success: email has been set.");
+            System.out.println("Sucesso: e-mail foi definido.");
         } else {
-            System.out.println("Error: invalid email format provided.");
+            System.out.println("Erro: formato de e-mail inválido fornecido.");
         }
     }
 
     public void setPassword(String password) {
-        // a regular expression to validate the password.
-        // ^   : asserts position at the start of the string.
-        // \\d : matches any digit (equivalent to [0-9]).
-        // {4} : is a quantifier, meaning "exactly 4 times".
-        // $   : asserts position at the end of the string.
+
+        // uma expressão regular para validar a senha.
+
+        // ^   : afirma a posição no início da string.
+        // \\d : corresponde a qualquer dígito (equivalente a [0-9]).
+        // {4} : é um quantificador, significando "exatamente 4 vezes".
+        // $   : afirma a posição no final da string.
+
         String passwordRegex = "^\\d{4}$";
-        // checking if the password field is not null and matches the pattern 
+        // verificando se o campo de senha não é nulo e corresponde ao padrão
         if(password != null && password.matches(passwordRegex)) {
             this.clientPassword = password;
-            System.out.println("Success: Password has been set.");
+            System.out.println("Sucesso: a senha foi definida.");
         } else {
-            System.out.println("Error: Password must be exactly 4 digits long.");
+            System.out.println("Erro: A senha deve ter exatamente 4 dígitos.");
         }
     }
 
     public void setAddress(String adress) {
         if(AddressValidator.isValidAddress(adress)) {
             this.clientAddress = adress;
-            System.out.println("Success: Adress has been set.");
+            System.out.println("Sucesso: Endereço foi definido.");
         } else {
-            System.out.println("Error: Password must be exactly 4 digits long.");
+            System.out.println("Erro: A senha deve ter exatamente 4 dígitos.");
         }
     }
 
-    // 2.2 TO OPEN AN ACCOUNT
+    // 2.2 PARA ABRIR UMA CONTA
+    
     /**  
-    * pay close attention on this one. we are going to open the actual type of the account on the GenericBankSystem class
-    *this is to enforce that the account only have a single and only one type of account *exclusively
-    * @param newAccount The account to assign (which can be CurrentAccount, SavingAccount or SpecialAccount)
+    * Preste bastante atenção nisso. Vamos abrir o tipo real da conta na classe GenericBankSystem
+    * isso é para garantir que a conta tenha apenas um único tipo de conta *exclusivamente
+    
+    * @param newAccount A conta a ser atribuída (que pode ser Conta Corrente, Conta Poupança ou Conta Especial)
     */
+
     public void setAccount(Account newAccount) {
         if (this.account == null) {
             if (newAccount != null) {
                 this.account = newAccount;
-                // getting the specific class name for a feedback message
+                // obtendo o nome da classe específica para uma mensagem de feedback
                 // getclass: 
-                System.out.println(newAccount.getClass().getSimpleName()+ " opened succesfully for "+ this.clientName);
+                System.out.println(newAccount.getClass().getSimpleName()+ " aberto com sucesso para "+ this.clientName);
             } else {
-                System.out.println("Error: cannot assign a null account.");
+                System.out.println("Erro: não é possível atribuir uma conta nula.");
             }
         } else {
-            // this is in case that an account already exists for this client 
-            System.out.println("Error: " + this.clientName + " already has an account and cannot open another one.");
+            // isso é caso já exista uma conta para este cliente
+            System.out.println("Erro: " + this.clientName + " já tem uma conta e não pode abrir outra.");
         }
     }
 
-    // 3. GETTER METHODS
+    // 3. MÉTODOS GETTER 
     public String getClientName() {return clientName;}
     public int getClientID() {return clientID;}
     public String getEmail() {return clientEmail;}

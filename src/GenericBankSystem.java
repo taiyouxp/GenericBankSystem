@@ -24,6 +24,7 @@ public class GenericBankSystem {
             System.out.println("6. Sacar de uma conta");
             System.out.println("7. Aplicar Juros (Apenas Conta Poupança)");
             System.out.println("8. Sair");
+            System.out.println();
             System.out.print("Por favor, escolha uma das opções acima: ");
             System.out.println("\n====================");
 

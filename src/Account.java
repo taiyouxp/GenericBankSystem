@@ -1,17 +1,16 @@
 public class Account {
     private String accountHolder;
     private int accountNumber;
-    protected double balance; // creditLimit will be deleted here later to make it on the currentAccount 
+    protected double balance; // o limite de crédito será excluído aqui mais tarde para torná-lo na conta atual 
     private double creditLimit;
-    private boolean accountState; // to check if an account is in debit
+    private boolean accountState; // para verificar se uma conta está em débito
 
     // 2. método construtor 
     public Account(String accountHolder, int accountNumber, double balance, double creditLimit) {
         this.accountHolder = accountHolder;
         this.accountNumber = accountNumber;
         this.balance = balance;
-        //this.creditLimit = creditLimit; // this is going to be deleted
-        // cause it couldnt be part of the abstract class account (the 'super' class)
+        //this.creditLimit = creditLimit; // isso vai ser deletado porque não poderia fazer parte da classe abstrata account (a classe 'super')
     }
 
     // 3. métodos getters (acessador)
@@ -35,19 +34,19 @@ public class Account {
         }
     } 
     
-    public void withdraw(double amount) {
-        if (amount > 0) {
-            if ((balance + creditLimit) >= amount) {
-                balance -= amount;
-                System.out.println("Withdrew: $"+amount);
+    public void withdraw(double quantia) {
+        if (quantia > 0) {
+            if ((balance + creditLimit) >= quantia) {
+                balance -= quantia;
+                System.out.println("Retirou-se: $" + quantia);
             } else {
                 System.out.println("Não foi possível processar a operação, saldo atual: " + balance);
             }
         } else { 
-            System.out.println("You cannot withdraw an negative amount");
+            System.out.println("Você não pode sacar um valor negativo");
         }
     }
-    // will implement a verification method later to know if the account is in debit or is regulated
+    // implementará um método de verificação posteriormente para saber se a conta está em débito ou é regulamentada
     // public void state(boolean state) {}
 
     public void displayInfo() {
