@@ -1,150 +1,188 @@
+// EXPLICAÇÂO DA CLASSE GenericBankSystem.java
+
+// Esta classe é o ponto de entrada e o controlador principal da sua aplicação. Ela será como o "maestro" de uma orquestra: ela não toca nenhum 
+// instrumento (Account, Bank), mas diz a cada um quando e como agir, seguindo a interação do usuário. Suas principais responsabilidades são:
+
+// 1 - Gerenciar o fluxo do programa (menus e navegação).
+// 2 - Capturar e processar as entradas do usuário.
+// 3 - Conectar as outras classes (Bank, Account, BankUI) para que trabalhem juntas.
+
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class GenericBankSystem {
 
+    // 1. ATRIBUTOS ESTÁTICOS (Configuração Inicial)
+    private static Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
+    private static Bank myBank = new Bank(); // cria o objeto que gerenciará as contas
+    private static int idCounter = 1; // para gerar números de conta sequenciais
+
+    // 2. O PONTO DE PARTIDA
     public static void main(String[] args) {
-        // 1. SETUP
-        Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
-        BankAdmin myBank = new BankAdmin(); // cria o objeto que gerenciará as contas
-        int id = 0; // para gerar números de conta sequenciais
-        boolean on = true;
+        BankUI.limparTela();
+        System.out.println(BankUI.ANSI_YELLOW + "Bem-vindo ao Sistema Bancário Genérico™" + BankUI.ANSI_RESET); // utilizando as cores no terminal
+        BankUI.pausar(scanner);
+        telaInicial(); // inicia a primeira tela
+        scanner.close(); // fecha o scanner quando o programa terminar
+    }
 
-        System.out.println("Bem-vindo ao Sistema Bancário Genérico");
+    // # 3. A ESTRUTURA DE MENUS (As "Telas")
+    public static void telaInicial() {
+        while (true) {
+            BankUI.exibirCabecalho("TELA INICIAL");
+            System.out.println("1. Entrar como Cliente");
+            System.out.println("2. Entrar como Admin");
+            System.out.println(BankUI.ANSI_RED + "3. Sair do Sistema" + BankUI.ANSI_RESET); // utilizando as cores no terminal
+            System.out.print("\nEscolha uma opção: ");
 
-        // 2. O LOOP DO PROGRAMA PRINCIPAL
-        while (on) {
-            // 2.1 menu de opções atualizado
-            System.out.println("\n========Menu========");
-            System.out.println("1. Adicionar nova conta");
-            System.out.println("2. Exibir todas as contas");
-            System.out.println("3. Encontre uma conta pelo número");
-            System.out.println("4. Modificar limite de crédito");
-            System.out.println("5. Depositar em uma conta");
-            System.out.println("6. Sacar de uma conta");
-            System.out.println("7. Aplicar Juros (Apenas Conta Poupança)");
-            System.out.println("8. Sair");
-            System.out.println();
-            System.out.print("Por favor, escolha uma das opções acima: ");
-            System.out.println("\n====================");
+            try { // 3.1. Tratamento de Erros
+                int escolha = scanner.nextInt();
+                scanner.nextLine(); // limpa o buffer
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); 
+                switch (escolha) {
+                    case 1: telaCliente(); break; // navega para a tela de cliente
+                    case 2: telaAdmin(); break; // navega para a tela de admin
+                    case 3:
+                        BankUI.limparTela();
+                        System.out.println(BankUI.ANSI_CYAN + "Obrigado por usar o sistema." + BankUI.ANSI_RESET); // utilizando as cores no terminal
+                        return; // encerra o método e, consequentemente, o programa
+                    
+                    default:
+                        BankUI.exibirMensagemErro("Opção inválida."); 
+                        BankUI.pausar(scanner);
+                }
 
-            // 3. ESTRUTURA DE DECISÃO
-            switch (choice) {
-                case 1: // adicionar nova conta (com escolha de tipo) implementado
-                    System.out.println("Escolha o tipo da conta:");
-                    System.out.println("1. Conta Poupança");
-                    System.out.println("2. Conta Especial");
-                    int tipoConta = scanner.nextInt();
-                    scanner.nextLine();
-
-                    System.out.print("Nome do titular da conta: ");
-                    String holder = scanner.nextLine();
-                    System.out.print("Valor inicial da conta: ");
-                    double amount = scanner.nextDouble();
-                    System.out.print("Valor de crédito inicial da conta: ");
-                    double credit = scanner.nextDouble();
-
-                    Account novaConta = null; // utilizamos a classe pai como tipo 
-
-                    if (tipoConta == 1) {
-                        System.out.print("Digite a taxa de juros (ex: 0.05 para 5%): ");
-                        double juros = scanner.nextDouble();
-                        novaConta = new ContaPoupanca(holder, id++, amount, credit, juros);
-                    } else if (tipoConta == 2) {
-                        System.out.print("Digite a taxa de saque (ex: 2.50): ");
-                        double taxa = scanner.nextDouble();
-                        novaConta = new ContaEspecial(holder, id++, amount, credit, taxa);
-                    } else {
-                        System.out.println("Tipo de conta inválido. Operação cancelada.");
-                        break;
-                    }
-
-                    myBank.addAccount(novaConta);
-                    break;
-
-                case 2: // exibindo todas as informações da conta
-                    myBank.displayAccounts();
-                    break;
-
-                case 3: // encontrar uma conta
-                    System.out.print("Digite o número da conta (id) que você deseja encontrar: ");
-                    int searchId = scanner.nextInt();
-                    Account foundAcc = myBank.findAccount(searchId);
-
-                    if (foundAcc != null) {
-                        System.out.println("---Conta encontrada---");
-                        foundAcc.displayInfo(); // POLIMORFISMO: chama o displayInfo() correto para o tipo de conta
-                        System.out.println("---------------------\n");
-                    } else {
-                        System.out.println("-> Nenhuma conta foi encontrada com este número.");
-                    }
-                    break;
-
-                case 4: // modificar um limite
-                    System.out.print("Insira o número da conta para modificar: ");
-                    int modAccNum = scanner.nextInt();
-                    System.out.print("Insira o novo limite de crédito: ");
-                    double newCredLim = scanner.nextDouble();
-                    myBank.modifyLimit(modAccNum, newCredLim);
-                    break;
-
-                case 5: // depositar
-                    System.out.print("Digite o número da conta para depósito: ");
-                    int depAccNum = scanner.nextInt();
-                    Account depAcc = myBank.findAccount(depAccNum);
-                    if (depAcc != null) {
-                        System.out.print("Digite o valor a ser depositado: ");
-                        double depAmount = scanner.nextDouble();
-                        depAcc.deposit(depAmount);
-                    } else {
-                        System.out.println("Conta não encontrada.");
-                    }
-                    break;
-
-                case 6: // sacar
-                    System.out.print("Digite o número da conta para saque: ");
-                    int withAccNum = scanner.nextInt();
-                    Account withAcc = myBank.findAccount(withAccNum);
-                    if (withAcc != null) {
-                        System.out.print("Digite o valor a ser sacado: ");
-                        double withAmount = scanner.nextDouble();
-                        // POLIMORFISMO 
-                        // se for ContaEspecial, chama o withdraw com taxa.
-                        // se for ContaPoupanca, chama o withdraw normal.
-                        withAcc.withdraw(withAmount);
-                    } else {
-                        System.out.println("Conta não encontrada.");
-                    }
-                    break;
-
-                case 7: // aplicar Juros
-                    System.out.print("Digite o número da conta poupança para aplicar juros: ");
-                    int jurosAccNum = scanner.nextInt();
-                    Account jurosAcc = myBank.findAccount(jurosAccNum);
-
-                    // VERIFICAÇÃO DE TIPO E CASTING
-                    if (jurosAcc != null && jurosAcc instanceof ContaPoupanca) {
-                        // se a conta for do tipo ContaPoupanca, podemos convertê-la (casting)
-                        ContaPoupanca cp = (ContaPoupanca) jurosAcc;
-                        cp.aplicarJuros(); // agora podemos chamar o método específico
-                    } else {
-                        System.out.println("Erro: Conta não encontrada ou não é uma Conta Poupança.");
-                    }
-                    break;
-
-                case 8: // sair
-                    on = false;
-                    System.out.println("Obrigado por usar o Generic Bank System™");
-                    break;
-
-                default:
-                    System.out.println("Opção inválida. Escolha um número entre 1 e 8.");
-                    break;
+            } catch (InputMismatchException e) {
+                BankUI.exibirMensagemErro("Entrada inválida. Por favor, digite um número.");
+                scanner.next();
+                BankUI.pausar(scanner);
             }
         }
-        scanner.close(); // Fecha o scanner ao final do programa
+    }
+
+    // # TELA 2: MENU DE CLIENTE (LOGIN / CRIAR CONTA) #
+    public static void telaCliente() {
+        while (true) {
+            BankUI.exibirCabecalho("ÁREA DO CLIENTE");
+            System.out.println("1. Login");
+            System.out.println("2. Criar Nova Conta");
+            System.out.println("3. Voltar");
+            System.out.print("\nEscolha uma opção: ");
+
+            int escolha = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (escolha) {
+                case 1: realizarLogin(); break;
+                case 2: criarNovaConta(); break;
+                case 3: return; // volta para a telaInicial()
+                default:
+                    BankUI.exibirMensagemErro("Opção inválida.");
+                    BankUI.pausar(scanner);
+            }
+        }
+    }
+    
+    // # TELA 3: MENU DO CLIENTE LOGADO #
+    public static void telaClienteLogado(Account contaLogada) {
+        // ESTRUTURA DE DECISÃO
+        while (true) {
+            BankUI.exibirCabecalho("Bem-vindo(a), " + contaLogada.getAccountHolder() + "!");
+            System.out.println("1. Ver meu Saldo e Informações");
+            System.out.println("2. Depositar");
+            System.out.println("3. Sacar");
+            System.out.println(BankUI.ANSI_RED + "4. Sair (Logout)" + BankUI.ANSI_RESET); // utilizando as cores no terminal
+            System.out.print("\nEscolha uma opção: ");
+
+            int escolha = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (escolha) {
+                case 1: contaLogada.displayInfo(); break;
+                case 2:
+                    System.out.print("Digite o valor para depositar: ");
+                    double valorDeposito = scanner.nextDouble(); scanner.nextLine();
+                    String resDeposito = contaLogada.deposit(valorDeposito);
+                    BankUI.exibirMensagemSucesso(resDeposito);
+                    break;
+                case 3:
+                    System.out.print("Digite o valor para sacar: ");
+                    double valorSaque = scanner.nextDouble(); scanner.nextLine();
+                    String resSaque = contaLogada.withdraw(valorSaque);
+                    if (resSaque.startsWith("Erro:")) {
+                        BankUI.exibirMensagemErro(resSaque);
+                    } else {
+                        BankUI.exibirMensagemSucesso(resSaque);
+                    }
+                    break;
+                case 4: return; // Volta para a telaCliente()
+                default: BankUI.exibirMensagemErro("Opção inválida.");
+            }
+            BankUI.pausar(scanner);
+        }
+    }
+    
+    // 4. MÉTODOS AUXILIARES (As Funcionalidades)
+
+    // CRIAR CONTA
+    private static void criarNovaConta() {
+        BankUI.exibirCabecalho("CRIAÇÃO DE NOVA CONTA");
+        System.out.print("Nome do titular: ");
+        String holder = scanner.nextLine();
+        System.out.print("Crie uma senha: ");
+        String password = scanner.nextLine();
+        System.out.print("Valor do depósito inicial: R$");
+        double amount = scanner.nextDouble();
+        System.out.print("Valor do limite de crédito: R$");
+        double credit = scanner.nextDouble();
+        
+        System.out.println("Escolha o tipo da conta: 1. Poupança | 2. Especial"); // adicionar nova conta (com escolha de tipo) implementado
+        int tipoConta = scanner.nextInt();
+        scanner.nextLine();
+
+        Account novaConta;
+        if (tipoConta == 1) {
+            System.out.print("Digite a taxa de juros (ex: 0.05 para 5%): ");
+            double juros = scanner.nextDouble();
+            novaConta = new ContaPoupanca(holder, idCounter++, amount, credit, juros, password);
+        } else {
+            System.out.print("Digite a taxa de saque (ex: 2.50): ");
+            double taxa = scanner.nextDouble();
+            novaConta = new ContaEspecial(holder, idCounter++, amount, credit, taxa, password);
+        }
+        
+        String resAdd = myBank.addAccount(novaConta);
+        BankUI.exibirMensagemSucesso(resAdd);
+        System.out.println(BankUI.ANSI_YELLOW + "IMPORTANTE: O número da sua conta para login é: " + novaConta.getAccountNumber() + BankUI.ANSI_RESET);
+        BankUI.pausar(scanner);
+    }
+
+    // REALIZAR LOGIN
+    private static void realizarLogin() {
+        BankUI.exibirCabecalho("LOGIN DO CLIENTE");
+        System.out.print("Digite o número da conta: ");
+        int numeroConta = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Digite a senha: ");
+        String senha = scanner.nextLine();
+
+        Account contaEncontrada = myBank.findAccount(numeroConta);
+
+        if (contaEncontrada != null && contaEncontrada.verificarSenha(senha)) {
+            BankUI.exibirMensagemSucesso("Login bem-sucedido!");
+            BankUI.pausar(scanner);
+            telaClienteLogado(contaEncontrada); // Navega para a tela do cliente logado
+        } else {
+            BankUI.exibirMensagemErro("Número da conta ou senha inválidos.");
+            BankUI.pausar(scanner);
+        }
+    }
+    
+    // # TELA de ADMIN e outras funções podem ser adicionadas aqui seguindo o mesmo modelo...
+    public static void telaAdmin() {
+        // implementação da tela de admin segue o mesmo padrão
+        BankUI.exibirCabecalho("PAINEL ADMIN");
+        // ... (resto da lógica de admin)
     }
 }

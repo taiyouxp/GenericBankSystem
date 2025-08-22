@@ -1,7 +1,15 @@
+// EXPLICAÇÃO DA CLASSE Cliente.java
+
+// A classe Client representa o cliente do banco como uma pessoa. Ela é responsável por armazenar e gerenciar os dados pessoais do cliente, como nome, 
+// e-mail e endereço, etc..
+// Essa classe também atua como um "elo de ligação", conectando os dados pessoais do cliente à sua respectiva conta bancária.
+
 import utils.EmailValidator;
 import utils.AddressValidator;
 
 public class Client {
+
+    // 1. ATRIBUTOS (Dados Pessoais do Cliente)
     private String clientName;
     private int clientID; // este só precisa do método construtor e não de um conjunto
     private String clientEmail;
@@ -10,7 +18,7 @@ public class Client {
     
     private Account account; // este é um campo único e pode conter qualquer subclasse de conta 
 
-    // 1. MÉTODO CONSTRUCTOR 
+    // 2. MÉTODO CONSTRUCTOR (O "Cadastro" do Cliente)
     public Client(int clientID, String name, String email, String password, String address) {
         this.clientID = clientID; // definindo o id diretamente
         this.account = null; // um novo cliente começa sem conta
@@ -21,8 +29,8 @@ public class Client {
         setPassword(password);
         setAddress(address);
     }
-    // 2 MÉTODOS SETTER
-    // 2.1 PARA AS ÁREAS DO CLIENTE
+    
+    // 3. MÉTODOS SETTER (Os "Validadores" de Dados)
     public void setClientName(String userName) {
         if (userName == null || userName.trim().isEmpty()) {
             System.out.println("Erro: O nome de usuário não pode estar vazio.");
@@ -72,7 +80,7 @@ public class Client {
         }
     }
 
-    // 2.2 PARA ABRIR UMA CONTA
+    // # PARA ABRIR UMA CONTA
     
     /**  
     * Preste bastante atenção nisso. Vamos abrir o tipo real da conta na classe GenericBankSystem
@@ -97,7 +105,7 @@ public class Client {
         }
     }
 
-    // 3. MÉTODOS GETTER 
+    // 4. MÉTODOS GETTER (Os "Leitores" de Dados)
     public String getClientName() {return clientName;}
     public int getClientID() {return clientID;}
     public String getEmail() {return clientEmail;}
