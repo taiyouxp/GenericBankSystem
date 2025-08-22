@@ -1,37 +1,25 @@
-// EXPLICAÇÃO DA CLASSE Account.java
+public abstract class Account {
+    // atributos comuns a todas as contas
+    private int accountNumber;
+    protected double balance; // 'protected' para que subclasses acessem diretamente 
+    private boolean isActive; // para verificar se uma conta está em ativa 
 
-// A classe Account é a base para todas as contas bancárias do sistema. Ela é como um "modelo" que define o que toda e qualquer conta 
-// bancária deve ter e o que ela pode fazer. Classes mais específicas, como ContaPoupanca e ContaEspecial, herdarão tudo o que está definido aqui e 
-// adicionarão suas próprias características únicas (herança e poliformismo). 
-
-public class Account {
-    // 1. ATRIBUTOS (As "Informações" da Conta)
-    private String accountHolder; // TitularConta
-    private int accountNumber; // NumeroConta
-    private double creditLimit; // limiteCredito
-    protected double balance;
-    private String password;
-
-    // 2. CONSTRUTOR (O "Criador" de Contas)
-    public Account(String accountHolder, int accountNumber, double balance, double creditLimit, String password) {
-        this.accountHolder = accountHolder;
+    // 1. método construtor 
+    public Account(int accountNumber, double balance) {
         this.accountNumber = accountNumber;
         this.balance = balance;
-        this.creditLimit = creditLimit;
-        this.password = password;
+        this.isActive = true;
     }
-    // 3. MÉTODOS (As "Ações" da Conta)
 
-    // 3.1 Métodos getters e Setters
-    public String getAccountHolder() { return accountHolder; }
-    public int getAccountNumber() { return accountNumber; }
-    public double getBalance() { return balance; }
-    public double getCreditLimit() { return creditLimit; }
-    
-    public void setNewLimit(double newLimit) { this.creditLimit = newLimit; } 
-    
-    // 3.2 Métodos de Operação 
-    public String deposit(double quantia) { // ALTERADO: Métodos agora retornam String
+    // 2. métodos getters (acessadores) 
+    public int getAccountNumber() {return accountNumber;}
+    public double getBalance() {return balance;} 
+    public boolean isActive() {return isActive;}
+
+    // 3. método de Comportamento comum a todos
+    // 3.1 depositar
+    // MSG PRO ED E PRO PEDRO: TROCAR O RETURN PRA STRING 
+    public void deposit(double quantia) {
         if (quantia > 0) {
             balance += quantia;
             return "Depositado: R$" + String.format("%.2f", quantia);
@@ -39,30 +27,31 @@ public class Account {
             return "Erro: Nenhum valor foi depositado (valor inválido).";
         }
     } 
-
-    
-    public String withdraw(double quantia) { // ALTERADO E CORRIGIDO: Lógica de saque corrigida e retorna String
+    // 3.2 transferir
+    public void transfer(double quantia, Account destino) {
         if (quantia <= 0) {
-            return "Erro: Você não pode sacar um valor negativo ou nulo.";
+            System.out.println("O valor da transferência deve ser positivo.");
+            return;
         }
-        if ((balance + creditLimit) >= quantia) {
-            balance -= quantia;
-            return "Saque de R$" + String.format("%.2f", quantia) + " realizado com sucesso.";
+
+        boolean saqueRealizado = this.withdraw(quantia);
+
+        if (saqueRealizado) {
+            destino.withdraw(quantia);
+            System.out.println("Transferência de R$"+quantia+" para a conta " + destino.getAccountNumber()+ " concluída.");
         } else {
-            return "Erro: Saldo insuficiente para processar a operação.";
+            // a mensagem de erro especifica ja foi mostrada pelo metodo sacar (withdraw)
+            System.out.println("Não foi possível realizar a transferência");
         }
     }
+    // 4. método abstrato
+    // forçando as subclasses a implementarem suas próprias formas de saque:
+    public abstract boolean withdraw(double quantia);
 
-    // 3.3 Métodos Utilitários
+    // 5. Mostra apenas as informações que a classe realmente possui.
     public void displayInfo() {
-        System.out.println("ID da conta: " + accountNumber);
-        System.out.println("Titular: " + accountHolder);
-        System.out.printf("Saldo: R$%.2f\n", balance);
-        System.out.printf("Limite de crédito: R$%.2f\n", creditLimit);
-        System.out.printf("Total disponível: R$%.2f\n", (balance + creditLimit));
-    }
-
-    public boolean verificarSenha(String senhaParaVerificar) {
-        return this.password.equals(senhaParaVerificar);
+        System.out.println("Número da Conta: " + accountNumber);
+        System.out.println("Saldo: R$" + balance);
+        System.out.println("Estado da Conta: " + (isActive ? "Ativa" : "Inativa"));
     }
 }

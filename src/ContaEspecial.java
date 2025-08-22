@@ -11,6 +11,8 @@ public class ContaEspecial extends Account {
 
     // 3. CONSTRUTOR
     public ContaEspecial(String accountHolder, int accountNumber, double balance, double creditLimit, double taxaDeSaque, String password) {
+        // MSG PRO ED E PRO PEDRO: TROCAR ESSE SUPER PRA ESSES PARAMETROS AQUI:
+        // NUMERO DA CONTA, SALDO E EstaAtivo
         super(accountHolder, accountNumber, balance, creditLimit, password);
         this.taxaDeSaque = taxaDeSaque;
     }
@@ -23,7 +25,8 @@ public class ContaEspecial extends Account {
         }
         
         double totalDebit = quantia + this.taxaDeSaque; // calcula o valor total a ser debitado
-
+        // MSG PRO ED E PRO PEDRO: DE NOVO ESSE GET N TA MAIS NA SUPERCLASSE (N SABIA OQ ERA PRECISO PRA 
+        // "CONTA ESPECIAL" ENTAO SE FOREM USAR UM LIMITE DE CREDITO, FAZ UM PROPRIO DESSA CLASSE)
         if ((this.balance + getCreditLimit()) >= totalDebit) {
             this.balance -= totalDebit; // modifica o saldo diretamente!
             return "Saque de R$" + String.format("%.2f", quantia) + " realizado com sucesso.\n" +

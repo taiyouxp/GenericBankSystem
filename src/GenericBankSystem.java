@@ -10,12 +10,13 @@
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
+import utils.BankUI;
 
 public class GenericBankSystem {
 
     // 1. ATRIBUTOS ESTÁTICOS (Configuração Inicial)
     private static Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
-    private static Bank myBank = new Bank(); // cria o objeto que gerenciará as contas
+    private static BankSysAdm myBank = new BankSysAdm(); // cria o objeto que gerenciará as contas
     private static int idCounter = 1; // para gerar números de conta sequenciais
 
     // 2. O PONTO DE PARTIDA
@@ -86,9 +87,12 @@ public class GenericBankSystem {
     
     // # TELA 3: MENU DO CLIENTE LOGADO #
     public static void telaClienteLogado(Account contaLogada) {
-        // ESTRUTURA DE DECISÃO
+        // ESTRUTURA DE DECISÃO 
+        // MSG PRO ED OU PEDRO: GET ACCOUNT HOLDER N EXISTE MAIS, TEM QUE PEGAR AS INFO DO CLIENTE QUE VAI TER 
+        // A CONTA, ENTAO TEM Q BOTAR ESSE GETCLIENTENAME EM CONTALOGADA (ISSO SERVE PRA TODAS AS CHAMADAS DESSA CONTA
+        // OU SEJA ESSE PARAMETRO SERIA UM CLIENTE (ESSE PRECISA TER UM GETACCOUNT ID PRA IDENTIFICAR A CONTA DELE))
         while (true) {
-            BankUI.exibirCabecalho("Bem-vindo(a), " + contaLogada.getAccountHolder() + "!");
+            BankUI.exibirCabecalho("Bem-vindo(a), " + contaLogada.getClientName() + "!");
             System.out.println("1. Ver meu Saldo e Informações");
             System.out.println("2. Depositar");
             System.out.println("3. Sacar");
@@ -100,7 +104,7 @@ public class GenericBankSystem {
 
             switch (escolha) {
                 case 1: contaLogada.displayInfo(); break;
-                case 2:
+                case 2:  
                     System.out.print("Digite o valor para depositar: ");
                     double valorDeposito = scanner.nextDouble(); scanner.nextLine();
                     String resDeposito = contaLogada.deposit(valorDeposito);
@@ -109,7 +113,7 @@ public class GenericBankSystem {
                 case 3:
                     System.out.print("Digite o valor para sacar: ");
                     double valorSaque = scanner.nextDouble(); scanner.nextLine();
-                    String resSaque = contaLogada.withdraw(valorSaque);
+                    String resSaque = contaLogada.withdraw(valorSaque); 
                     if (resSaque.startsWith("Erro:")) {
                         BankUI.exibirMensagemErro(resSaque);
                     } else {
@@ -168,7 +172,7 @@ public class GenericBankSystem {
         String senha = scanner.nextLine();
 
         Account contaEncontrada = myBank.findAccount(numeroConta);
-
+        // MSG PRO ED E PRO PEDRO: NESSE CASO AQUI VERIFICACAO DE SENHA TA EM CLIENTE, DE NOVO 
         if (contaEncontrada != null && contaEncontrada.verificarSenha(senha)) {
             BankUI.exibirMensagemSucesso("Login bem-sucedido!");
             BankUI.pausar(scanner);

@@ -85,7 +85,6 @@ public class Client {
     /**  
     * Preste bastante atenção nisso. Vamos abrir o tipo real da conta na classe GenericBankSystem
     * isso é para garantir que a conta tenha apenas um único tipo de conta *exclusivamente
-    
     * @param newAccount A conta a ser atribuída (que pode ser Conta Corrente, Conta Poupança ou Conta Especial)
     */
 

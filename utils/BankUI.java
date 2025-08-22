@@ -1,9 +1,9 @@
+package utils;
 // EXPLICAÇÂO DA CLASSE BankUI.java
 
 // A classe BankUI é uma classe utilitária (ou "helper class"). Sua única responsabilidade é gerenciar a aparência visual do programa no terminal. 
 // Ela centraliza todas as funções relacionadas à formatação da interface do usuário (UI - User Interface), como limpar a tela, exibir textos 
 // coloridos e criar cabeçalhos padronizados.
-
 
 import java.util.Scanner;
 

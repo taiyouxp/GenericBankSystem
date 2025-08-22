@@ -9,6 +9,7 @@ public class ContaPoupanca extends Account {
 
     // 2. CONSTRUTOR
     public ContaPoupanca(String accountHolder, int accountNumber, double balance, double creditLimit, double taxaDeJuros, String password) {
+        // MSG PRO ED E PRO PEDRO: MESMA IDEIA QUE EU DISSE EM CONTA ESPECIAL
         super(accountHolder, accountNumber, balance, creditLimit, password);
         this.taxaDeJuros = taxaDeJuros;
     }
